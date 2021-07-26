@@ -36,6 +36,8 @@ public class Bullet {
         rect.y = y;
         rect.width = WIDTH;
         rect.height = HEIGHT;
+
+        tf.bullets.add(this);
     }
     //绘制
     public void paint(Graphics g) {

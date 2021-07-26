@@ -7,19 +7,21 @@ import java.util.Properties;
  * 读配置文件
  */
 public class PropertyMgr {
-    static Properties pros = new Properties();
+    private static final Properties INSTANCE = new Properties();
+
+    private PropertyMgr() {}
 
     static {
         try {
-            pros.load(PropertyMgr.class.getClassLoader().getResourceAsStream("config"));
+            INSTANCE.load(PropertyMgr.class.getClassLoader().getResourceAsStream("config"));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static Object get(String key) {
-        if (pros == null) return null;
-        return pros.get(key);
+        if (INSTANCE == null) return null;
+        return INSTANCE.get(key);
     }
 
 }

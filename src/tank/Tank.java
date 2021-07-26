@@ -24,9 +24,11 @@ public class Tank {
     //阵营
     public Group group = Group.BAD;
 
+    public FireStrategy fireStrategy;
+
     private Random random = new Random();
 
-    private TankFrame tf = null;
+    TankFrame tf = null;
 
     Rectangle rect = new Rectangle();
 
@@ -42,6 +44,30 @@ public class Tank {
         rect.y = y;
         rect.width = WIDTH;
         rect.height = HEIGHT;
+
+        if (group == Group.GOOD) {
+            String goodFSName = PropertyMgr.get("goodStrategy").toString();
+            try {
+                fireStrategy = (FireStrategy)Class.forName(goodFSName).newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            String badFSName = PropertyMgr.get("goodStrategy").toString();
+            try {
+                fireStrategy = (FireStrategy)Class.forName(badFSName).newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
     //绘制
     public void paint (Graphics g) {
@@ -123,14 +149,7 @@ public class Tank {
 
     //开火
     public void fire() {
-        int bx = this.x+WIDTH/2-Bullet.WIDTH/2;
-        int by = this.y+HEIGHT/2-Bullet.HEIGHT/2;
-
-        tf.bullets.add(new Bullet(bx,by,this.dir,this.group,this.tf));
-
-        if(this.group == Group.GOOD) {
-            new Thread(()->new Audio("audio/tank_fire.wav").play()).start();
-        }
+        fireStrategy.fire(this);
     }
 
     //坦克死亡

@@ -9,6 +9,11 @@ import java.io.IOException;
  * 资源预加载
  */
 public class ResourceMgr {
+
+    private static final ResourceMgr INSTANCE = new ResourceMgr();
+
+    private ResourceMgr() {}
+
     public static BufferedImage goodTankL, goodTankU, goodTankR, goodTankD;
     public static BufferedImage badTankL, badTankU, badTankR, badTankD;
     public static BufferedImage bulletL, bulletU, bulletR, bulletD;
@@ -36,5 +41,10 @@ public class ResourceMgr {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "ResourceMgr{}";
     }
 }
